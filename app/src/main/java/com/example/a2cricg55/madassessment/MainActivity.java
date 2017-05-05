@@ -1,7 +1,6 @@
 package com.example.a2cricg55.madassessment;
 
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.addpoi) {
             Intent intent = new Intent(this,POI.class);
-            startActivity(intent);
+            startActivityForResult(intent,1);
             return true;
         }
         return false;
