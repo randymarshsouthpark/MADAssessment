@@ -4,6 +4,8 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Intent;
 import android.preference.PreferenceManager;
@@ -12,10 +14,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     MapView map;
+    ItemizedIconOverlay<OverlayItem> markers;
+    ItemizedIconOverlay.OnItemGestureListener<OverlayItem> markerGestureListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +36,33 @@ public class MainActivity extends AppCompatActivity {
         map.setBuiltInZoomControls(true);
         map.getController().setZoom(14);
         map.getController().setCenter(new GeoPoint(-67.563836,-68.123800));
+        markerGestureListener = new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+            public boolean onItemLongPress(int i, OverlayItem marker) {
+                Toast.makeText(MainActivity.this, marker.getSnippet(), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            public boolean onItemSingleTapUp(int i, OverlayItem marker) {
+                Toast.makeText(MainActivity.this, marker.getSnippet(), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        };
+    }
+    protected void onActivityResult (int requestCode, int resultCode,Intent intent) {
+        if(requestCode == RESULT_OK){
+            if (resultCode == 1) {
+                Bundle thebundle = intent.getExtras();
+                    String poiName = thebundle.getString("com.example.NameText");
+                    String poiType = thebundle.getString("com.example.TypeText");
+                    String poiDescription = thebundle.getString("com.example.DescriptionText");
+                    double lat =  MapView.getMapCenter().getLatitude();
+                    double lon = MapView.getMapCenter().getLongitude();
+                    markers = new ItemizedIconOverlay<>(this, new ArrayList<OverlayItem>(), markerGestureListener);
+                    OverlayItem Marker = new OverlayItem(poiName,poiType, poiDescription, new GeoPoint(lat, lon));
+                    markers.addItem(Marker);
+                    MapView.getOverlays().add(markers);
+            }
+        }
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -43,5 +78,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+
     }
 }
