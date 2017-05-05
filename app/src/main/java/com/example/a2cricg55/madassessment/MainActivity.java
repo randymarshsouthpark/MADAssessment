@@ -45,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return true;
             }
         };
+        markers = new ItemizedIconOverlay<>(this, new ArrayList<OverlayItem>(), markerGestureListener);
+        OverlayItem Rothera = new OverlayItem("Rothera", "Research Station", new GeoPoint(-67.563836,-68.123800));
+        markers.addItem(Rothera);
+        MapView.getOverlays().add(markers);
     }
     protected void onActivityResult (int requestCode, int resultCode,Intent intent) {
         if(requestCode == RESULT_OK){
