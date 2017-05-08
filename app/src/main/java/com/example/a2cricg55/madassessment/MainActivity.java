@@ -138,4 +138,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+    public void onDestroy(){
+        super.onDestroy();
+        try {
+            PrintWriter bufferedwriting = new PrintWriter(new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/thecsv2.txt")));
+            for (int i = 0; i < markers.size(); i++) {
+                OverlayItem marker = markers.getItem(i);
+                bufferedwriting.println(marker.getTitle() + "," + marker.getSnippet() + "," + marker.getPoint().getLatitude() + "," + marker.getPoint().getLongitude() + " ");
+
+            }
+            bufferedwriting.close();
+
+        } catch (IOException e) {
+            new AlertDialog.Builder(this).setMessage("ERROR: " + e).show();
+        }
+        finish();
+    }
 }
