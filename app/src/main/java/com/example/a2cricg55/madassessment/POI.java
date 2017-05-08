@@ -24,13 +24,13 @@ public class POI extends Activity implements View.OnClickListener {
         EditText Description = (EditText)findViewById(R.id.DescriptionText);
         String description = Description.getText().toString();
 
-        Bundle thebundle = new Bundle();
-        thebundle.putString("com.example.NameText", name);
-        thebundle.putString("com.example.TypeText", type);
-        thebundle.putString("com.example.DescriptionText", description);
+        Bundle bundle = new Bundle();
+        bundle.putString("com.example.NameText", name);
+        bundle.putString("com.example.TypeText", type);
+        bundle.putString("com.example.DescriptionText", description);
 
         Intent intent = new Intent();
-        intent.putExtras(thebundle);
+        intent.putExtras(bundle);
         setResult(RESULT_OK, intent);
         finish();
 
