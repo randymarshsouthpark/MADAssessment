@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MAD Assessment</string>
     <string name="addpoi">Add A Place Of Interest </string>
+    <string name="preferences">Preferences</string>
 </resources>

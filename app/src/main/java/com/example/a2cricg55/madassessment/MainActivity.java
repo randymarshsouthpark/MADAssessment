@@ -7,6 +7,7 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
@@ -84,6 +85,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences getPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Boolean webCheck = getPreferences.getBoolean("upload2web", true);
+        if(webCheck == true) {
+            Toast.makeText(this, "Uploaded", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -95,6 +108,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (item.getItemId() == R.id.addpoi) {
             Intent intent = new Intent(this, POI.class);
             startActivityForResult(intent, 1);
+            return true;
+        }
+        if (item.getItemId() == R.id.thepreferences) {
+            Intent intent = new Intent(this, ShowPreferencesActivity.class);
+            startActivityForResult(intent, 2);
             return true;
         }
         return false;
